@@ -1,22 +1,26 @@
 <h1>Get data</h1>
+
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
 <form action="{% url 'get_data' %}" method="post">
-{% csrf_token %}
-insert number of article :</br><input type="number" name="num">
-<input type="submit" value="enter">
+    {% csrf_token %}
+    <input type="radio" name="web" id="1" value="https://www.blognone.com/node">
+    <label for="1">https://www.blognone.com</label><br>
+    </br>
+    insert number of article :</br><input type="number" name="num" min="1">
+    <input type="submit" value="enter">
 </form>
 
 
 {% if data %}
 <center>
-<style>
+    <style>
     table, th ,td{border:1px solid black; border-collapse: collapse;}
     th{text-align: center;}
-</style>
+    </style>
 <table width="90%">
   
     <tr><th>id</th><th>title</th><th>link</th><th>tags</th></tr>
-  
     {% for key, value in data.items %}
         <tr><td>{{key}}</d><td>{{value.title}}</td>
         <td><a href={{value.url_link}}>&nbsp;link&nbsp;</a></td>

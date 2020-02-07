@@ -9,10 +9,11 @@ def index(request):
     return render(request, 'myapp/index.html')
 
 def get_article(request):
-    url = 'https://www.blognone.com/node'
-    if request.POST.get('num'):
+    if request.POST.get('num') and request.POST.get('web') :
+        print(request.POST.get('web'))
         n = int(request.POST.get('num')) 
         data = {}
+        url = request.POST.get('web')
         soup = setup_soup(url)
         count = 0
         while len(data) < n:
@@ -25,7 +26,7 @@ def get_article(request):
             count += 1
         return render(request, 'myapp/index.html', {'data' : data})
     else:
-        return render(request, 'myapp/index.html', {'error_message': "You didn't insert input."})
+        return render(request, 'myapp/index.html', {'error_message': "You didn't insert some input."})
     
 
 def find_data(soup, url, number, data):
