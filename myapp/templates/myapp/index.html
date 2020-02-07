@@ -8,14 +8,19 @@ insert number of article :</br><input type="number" name="num">
 
 
 {% if data %}
-<h3>result for {{number}}</h3></br>
 <center>
 <style>
- table, th ,td{border:1px solid black; border-collapse: collapse;}
+    table, th ,td{border:1px solid black; border-collapse: collapse;}
+    th{text-align: center;}
 </style>
 <table width="90%">
+  
+    <tr><th>id</th><th>title</th><th>link</th><th>tags</th></tr>
+  
     {% for key, value in data.items %}
-        <tr><td>{{key}}</d><td>{{value.title}}</td><td>{{value.url_link}}</td><td>{{value.tags}}</td></tr>
+        <tr><td>{{key}}</d><td>{{value.title}}</td>
+        <td><a href={{value.url_link}}>&nbsp;link&nbsp;</a></td>
+        <td>{{ value.tags|join:", " }}</td></tr>
     {% endfor %}
 </table>
 </center>  

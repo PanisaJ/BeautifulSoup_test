@@ -23,7 +23,7 @@ def get_article(request):
                 soup = setup_soup(url + "?page=" + str(count))
             data = find_data(soup, url, remind_number, data)
             count += 1
-        return render(request, 'myapp/index.html', {'data' : data, 'number' : n})
+        return render(request, 'myapp/index.html', {'data' : data})
     else:
         return render(request, 'myapp/index.html', {'error_message': "You didn't insert input."})
     
