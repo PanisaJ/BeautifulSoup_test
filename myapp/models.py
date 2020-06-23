@@ -11,13 +11,13 @@ class Webpage(models.Model):
     def __str__(self):
         return self.web_text
 
-class Title(models.Model):
-    title_text = models.CharField(max_length=100)
-    title_url = models.URLField(max_length=100)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+class Article(models.Model):
+    article_text = models.CharField(max_length=100)
+    article_url = models.URLField(max_length=100)
+    tag = models.ManyToManyField(Tag)
     Webpage = models.ForeignKey(Webpage, on_delete=models.CASCADE)
     def __str__(self):
-        return self.title
+        return self.article_text
 
 
     

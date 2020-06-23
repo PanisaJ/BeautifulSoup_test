@@ -4,30 +4,47 @@
 
 <form action="{% url 'get_data' %}" method="post">
     {% csrf_token %}
-    <input type="radio" name="web" id="1" value="https://www.blognone.com/node">
-    <label for="1">https://www.blognone.com</label><br>
-    <input type="radio" name="web" id="2" value="https://www.techtalkthai.com/read-all">
-    <label for="2">https://www.techtalkthai.com</label><br></br>
-    insert number of article :</br><input type="number" name="num" min="1">
+    {% for web in web_list %}
+        <input type="radio" name="web" id="web{{ forloop.counter }}" value="{{ web.webpage_url }}">
+        <label for="web{{ forloop.counter }}">{{ web.web_text }}</label><br>
+    {% endfor %}</br>
+    insert number of article (1-50):</br><input type="number" name="num" min="1" max="50">
     <input type="submit" value="enter">
 </form>
 
-
-{% if data %}
 <center>
+<form action="{% url 'search_data' %}" method="get">
+    Search article :&nbsp;<input type="text" name="article" {% if atricle_text %}value={{ atricle_text }}{% endif %} >&nbsp;
+    Webpage :&nbsp;
+    <select name="selectweb">
+        <option value="all">all</option> 
+        {% for web in web_list %}
+            <option value="{{web.web_text}}" {% if selected_web == web.web_text %}selected{% endif %}>{{ web.web_text }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="search">
+</form>
+
+{% if article_list %}
     <style>
     table, th ,td{border:1px solid black; border-collapse: collapse;}
     th{text-align: center;}
     </style>
-<table width="90%">
+    <table width="90%">
   
-    <tr><th>id</th><th>title</th><th>link</th><th>tags</th></tr>
-    {% for key, value in data.items %}
-        <tr><td>{{key}}</d><td>{{value.title}}</td>
-        <td><a href={{value.url_link}}>&nbsp;link&nbsp;</a></td>
-        <td>{{ value.tags|join:", " }}</td></tr>
+    <tr><th>Article</th><th>Link</th><th>Tags</th><th>Webpage</th></tr>
+    {% for article in article_list %}
+        <tr><td>{{ article.article_text }}</td>
+        <td><a href={{ article.article_url }}>&nbsp;link&nbsp;</a></td>
+        <td>{% for tag in article.tag.all %}
+        {{ tag }}&nbsp;
+        {% endfor %}</td>
+        <td>{{ article.Webpage}}</td></tr>
     {% endfor %}
-</table>
+    </table>
 </center>  
+{% else %}
+    no results.
 {% endif %}
+
 
